@@ -2,6 +2,7 @@ import Koa, { Context } from "koa";
 import dotenv from "dotenv";
 import route from "koa-route";
 import * as homeCtrl from "./controllers/home";
+import * as userApiCtrl from "./apicontrollers/user";
 import { LocalsObject, Options, default as pug } from "pug";
 import * as path from "path";
 import Application = require("koa");
@@ -55,6 +56,7 @@ export function addPugSupportToContext(context: PugContext) {
  * controllers on.
  */
 function registerControllers(app: Application) {
+  app.use(route.get("/apis/user", userApiCtrl.index));
   app.use(route.get("/", homeCtrl.index));
 }
 
