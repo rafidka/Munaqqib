@@ -15,7 +15,7 @@ sourceMapSupport.install();
 dotenv.config({path: ".env"});
 
 // Full URL of the 'views' directory.
-const VIEWS_PATH = path.join(__dirname, "../views");
+const VIEWS_PATH = path.join(__dirname, "views");
 // Port on which the server should run.
 const PORT = process.env.PORT || 3000;
 

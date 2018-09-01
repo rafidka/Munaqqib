@@ -4,7 +4,7 @@ import nodeExternals from "webpack-node-externals";
 
 const config: webpack.Configuration = {
   devtool: "inline-source-map",
-  entry: "./src/server.ts",
+  entry: "./src/server/main.ts",
   externals: [
     // Exclude node_modules from the bundle.
     // TODO: Ideally, we should not exclude them, but it is causing problems
