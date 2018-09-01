@@ -31,14 +31,22 @@ export interface PugContext extends Context {
  * @param {Application} app The {@link Application} instance to add the
  * middleware to.
  */
-function addPugSupport(app: Application) {
+export function addPugSupport(app: Application) {
   app.use(async (context: PugContext, next: () => Promise<any>) => {
-    context.renderPugView = (viewName: string, options: Options & LocalsObject) => {
-      const viewPath = path.join(VIEWS_PATH, viewName + ".pug");
-      context.body = pug.renderFile(viewPath, options);
-    };
+    addPugSupportToContext(context);
     await next();
   });
+}
+
+/**
+ * Adds a function for rendering PUG views to the given {@link PugContext}.
+ * @param {PugContext} context The context to add the function to.
+ */
+export function addPugSupportToContext(context: PugContext) {
+  context.renderPugView = (viewName: string, options: Options & LocalsObject) => {
+    const viewPath = path.join(VIEWS_PATH, viewName + ".pug");
+    context.body = pug.renderFile(viewPath, options);
+  };
 }
 
 /**
@@ -53,7 +61,7 @@ function registerControllers(app: Application) {
 const app = new Koa();
 addPugSupport(app);
 registerControllers(app);
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(
     "  App is running at http://localhost:%d in %s mode",
     PORT,
@@ -62,5 +70,5 @@ app.listen(PORT, () => {
   console.log("  Press CTRL-C to stop\n");
 });
 
-export default app;
+export default server;
 

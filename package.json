@@ -24,7 +24,7 @@
     "copy-server-assets": "ts-node copy-assets.ts",
     "build-server": "webpack --config webpack.config.ts && npm run copy-server-assets",
     "start-server": "ts-node-dev --respawn --transpileOnly src/server/main.ts",
-    "test": "jest --forceExit --coverage --verbose",
+    "test": "jest --coverage --verbose",
     "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "dependencies": {
