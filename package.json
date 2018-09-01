@@ -1,0 +1,70 @@
+{
+  "name": "munaqqib",
+  "version": "0.1.0",
+  "description": "An ElasticSearch-based crawler for crawling RESTful services and make their results searchable",
+  "main": "./dist/bundle.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafidka/Munaqqib.git"
+  },
+  "keywords": [
+    "ElasticSearch",
+    "RESTful",
+    "REST",
+    "Search",
+    "Munaqqib"
+  ],
+  "author": "Rafid K. Al-Humaimidi",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/rafidka/Munaqqib/issues"
+  },
+  "homepage": "https://github.com/rafidka/Munaqqib#readme",
+  "scripts": {
+    "build-ts": "webpack --config webpack.config.ts",
+    "watch-ts": "webpack --config webpack.config.ts --watch",
+    "node": "ts-node src/app.ts",
+    "watch-node": "nodemon -r source-map-support/register dist/bundle.js",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
+    "test": "jest --forceExit --coverage --verbose",
+    "watch-test": "npm run test -- --watchAll",
+    "lint": "tslint -c tslint.json -p tsconfig.json"
+  },
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "koa": "^2.5.2",
+    "koa-route": "^3.2.0",
+    "lodash": "^4.17.10",
+    "pug": "^2.0.3",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^4.0.3",
+    "@types/jest": "^23.3.1",
+    "@types/koa": "^2.0.46",
+    "@types/koa-route": "^3.2.4",
+    "@types/lodash": "^4.14.116",
+    "@types/node": "^10.9.2",
+    "@types/pug": "^2.0.4",
+    "@types/request": "^2.47.1",
+    "@types/shelljs": "^0.8.0",
+    "@types/source-map-support": "^0.4.1",
+    "@types/supertest": "^2.0.5",
+    "@types/webpack": "^4.4.11",
+    "@types/webpack-node-externals": "^1.6.3",
+    "concurrently": "^4.0.1",
+    "jest": "^23.5.0",
+    "nodemon": "^1.18.3",
+    "shelljs": "^0.8.2",
+    "source-map-support": "^0.5.9",
+    "supertest": "^3.1.0",
+    "ts-jest": "^23.1.4",
+    "ts-loader": "^4.5.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-node-externals": "^1.7.2"
+  }
+}

@@ -1,0 +1,66 @@
+import Koa, { Context } from "koa";
+import dotenv from "dotenv";
+import route from "koa-route";
+import * as homeCtrl from "./controllers/home";
+import { LocalsObject, Options, default as pug } from "pug";
+import * as path from "path";
+import Application = require("koa");
+import sourceMapSupport from "source-map-support";
+
+// Install source map support so errors happening while executing bundle.js
+// can be mapped to actual source code
+sourceMapSupport.install();
+
+// Load environment variables from .env file, where API keys and passwords are configured
+dotenv.config({path: ".env"});
+
+// Full URL of the 'views' directory.
+const VIEWS_PATH = path.join(__dirname, "../views");
+// Port on which the server should run.
+const PORT = process.env.PORT || 3000;
+
+/**
+ * Extends the {@link Context} class to add a function for rendering PUG views.
+ */
+export interface PugContext extends Context {
+  renderPugView(viewName: string, options: Options & LocalsObject): void;
+}
+
+/**
+ * Adds a middleware that injects a function for rendering PUG views.
+ * @param {Application} app The {@link Application} instance to add the
+ * middleware to.
+ */
+function addPugSupport(app: Application) {
+  app.use(async (context: PugContext, next: () => Promise<any>) => {
+    context.renderPugView = (viewName: string, options: Options & LocalsObject) => {
+      const viewPath = path.join(VIEWS_PATH, viewName + ".pug");
+      context.body = pug.renderFile(viewPath, options);
+    };
+    await next();
+  });
+}
+
+/**
+ * Registers the controllers.
+ * @param {Application} app The {@link Application} instance to register the
+ * controllers on.
+ */
+function registerControllers(app: Application) {
+  app.use(route.get("/", homeCtrl.index));
+}
+
+const app = new Koa();
+addPugSupport(app);
+registerControllers(app);
+app.listen(PORT, () => {
+  console.log(
+    "  App is running at http://localhost:%d in %s mode",
+    PORT,
+    "development"
+  );
+  console.log("  Press CTRL-C to stop\n");
+});
+
+export default app;
+
