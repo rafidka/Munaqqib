@@ -3,7 +3,7 @@ import server from "../../src/server/server";
 import * as homeCtrl from "../../src/server/controllers/home";
 import { createMockContext } from "./utilities";
 
-describe("controllers/home.ts", () => {
+describe("apicontrollers/user.ts", () => {
   it("index() should set body", async (done) => {
     const ctx = createMockContext();
     await homeCtrl.index(ctx);
@@ -12,9 +12,9 @@ describe("controllers/home.ts", () => {
   });
 });
 
-describe("GET /", () => {
+describe("GET /apis/user", () => {
   it("should return 200 OK", (done) => {
-    request(server).get("/").expect(200, done);
+    request(server).get("/apis/user").expect(200, done);
   });
 });
 

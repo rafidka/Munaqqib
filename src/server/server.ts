@@ -1,11 +1,16 @@
+// Koa imports
 import Koa, { Context } from "koa";
-import dotenv from "dotenv";
+import Application = require("koa");
 import route from "koa-route";
+import mount = require("koa-mount");
+import serve from "koa-static";
+
+
+import dotenv from "dotenv";
 import * as homeCtrl from "./controllers/home";
 import * as userApiCtrl from "./apicontrollers/user";
 import { LocalsObject, Options, default as pug } from "pug";
 import * as path from "path";
-import Application = require("koa");
 import sourceMapSupport from "source-map-support";
 
 // Install source map support so errors happening while executing bundle.js
@@ -17,6 +22,9 @@ dotenv.config({path: ".env"});
 
 // Full URL of the 'views' directory.
 const VIEWS_PATH = path.join(__dirname, "views");
+// Full URL of the 'dist/static' directory.
+const PUBLIC_PATH = path.join(__dirname, "public");
+console.log(PUBLIC_PATH);
 // Port on which the server should run.
 const PORT = process.env.PORT || 3000;
 
@@ -60,9 +68,15 @@ function registerControllers(app: Application) {
   app.use(route.get("/", homeCtrl.index));
 }
 
+function registerStatic(app: Application) {
+  app.use(mount("/public", serve(PUBLIC_PATH)));
+}
+
 const app = new Koa();
 addPugSupport(app);
+registerStatic(app);
 registerControllers(app);
+
 const server = app.listen(PORT, () => {
   console.log(
     "  App is running at http://localhost:%d in %s mode",

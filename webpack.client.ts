@@ -1,17 +1,9 @@
 import path from "path";
 import webpack from "webpack";
-import nodeExternals from "webpack-node-externals";
 
 const config: webpack.Configuration = {
-  devtool: "inline-source-map",
-  entry: "./src/server/main.ts",
-  externals: [
-    // Exclude node_modules from the bundle.
-    // TODO: Ideally, we should not exclude them, but it is causing problems
-    // with require statements that use expressions causing webpack to not be
-    // able to find the module at build time.
-    nodeExternals()
-  ],
+  devtool: "source-map",
+  entry: "./src/server/public/js/index.ts",
   mode: "development",
   module: {
     rules: [
@@ -32,8 +24,8 @@ const config: webpack.Configuration = {
     setImmediate: false
   },
   output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist")
+    filename: "client.js",
+    path: path.resolve(__dirname, "./src/server/public/js")
   },
   resolve: {
     extensions: [".ts", ".js"]
