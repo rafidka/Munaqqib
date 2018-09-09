@@ -1,18 +1,26 @@
 import _ from "lodash";
 import fetch from "node-fetch";
 import es from "elasticsearch";
+import dotenv from "dotenv";
+
+dotenv.config({path: ".env"});
+
+if (!process.env.ELASTICSEARCH_URL) {
+  console.error("ELASTICSEARCH_URL is not defined. Add this value to the " +
+    ".env file.");
+  process.exit(1);
+}
 
 const esClient = new es.Client({
-  host: "es-dev.hadithhouse.net:9200",
+  host: process.env.ELASTICSEARCH_URL,
   log: "warning"
 });
-esClient.close();
 
 /**
  * Pings the ElasticSearch server to check it status.
  * @returns {Promise<boolean>}
  */
-async function checkStatus(): Promise<boolean> {
+export async function checkStatus(): Promise<boolean> {
   return await esClient.ping({});
 }
 
