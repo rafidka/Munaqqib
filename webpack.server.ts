@@ -4,7 +4,10 @@ import nodeExternals from "webpack-node-externals";
 
 const config: webpack.Configuration = {
   devtool: "inline-source-map",
-  entry: "./src/server/server.ts",
+  entry: {
+    server: "./src/server/server.ts",
+    daemon: "./src/daemon/daemon.ts"
+  },
   externals: [
     // Exclude node_modules from the bundle.
     // TODO: Ideally, we should not exclude them, but it is causing problems
@@ -32,7 +35,7 @@ const config: webpack.Configuration = {
     setImmediate: false
   },
   output: {
-    filename: "server.js",
+    filename: "[name].js",
     path: path.resolve(__dirname, "dist")
   },
   resolve: {
