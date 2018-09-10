@@ -1,7 +1,6 @@
 import Sequelize from "sequelize";
 
-
-const db = new Sequelize("database", "username", "password", {
+const sequelize = new Sequelize("database", "username", "password", {
   dialect: "sqlite",
 
   pool: {
@@ -18,13 +17,36 @@ const db = new Sequelize("database", "username", "password", {
   operatorsAliases: false
 });
 
-function createServiceTable() {
-  const Service = db.define("service", {
-    id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
-    url: {type: Sequelize.STRING, allowNull: false},
-    indexName: {type: Sequelize.STRING, allowNull: false},
-    typeName: {type: Sequelize.STRING, allowNull: false},
-    lastFetch: {type: Sequelize.DATE, allowNull: false},
-  });
+sequelize.authenticate();
+
+class ServiceAttributes {
+  id?: number;
+  url: string;
+  indexName: string;
+  typeName: string;
+  lastFetch?: Date;
 }
 
+type ServiceInstance = Sequelize.Instance<ServiceAttributes> & ServiceAttributes;
+type ServiceModel = Sequelize.Model<ServiceInstance, ServiceAttributes>;
+
+function createServiceTable(db: Database) {
+  db.Services = sequelize.define<ServiceInstance, ServiceAttributes>("service",
+    {
+      id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
+      url: {type: Sequelize.STRING, allowNull: false},
+      indexName: {type: Sequelize.STRING, allowNull: false},
+      typeName: {type: Sequelize.STRING, allowNull: false},
+      lastFetch: {type: Sequelize.DATE, allowNull: true},
+    });
+  db.Services.sync();
+}
+
+interface Database {
+  Services?: ServiceModel;
+}
+
+const db: Database = {};
+createServiceTable(db);
+
+export = db;

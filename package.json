@@ -44,7 +44,8 @@
     "node-fetch": "^2.2.0",
     "pug": "^2.0.3",
     "request": "^2.88.0",
-    "sequelize": "^4.38.0"
+    "sequelize": "^4.38.0",
+    "sqlite3": "^4.0.2"
   },
   "devDependencies": {
     "@types/dotenv": "^4.0.3",
