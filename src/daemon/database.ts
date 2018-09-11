@@ -30,8 +30,17 @@ class ServiceAttributes {
 type ServiceInstance = Sequelize.Instance<ServiceAttributes> & ServiceAttributes;
 type ServiceModel = Sequelize.Model<ServiceInstance, ServiceAttributes>;
 
-function createServiceTable(db: Database) {
-  db.Services = sequelize.define<ServiceInstance, ServiceAttributes>("service",
+class ServiceRequestAttributes {
+  id?: number;
+  serviceId?: number;
+  httpStatusCode: number;
+}
+
+type ServiceRequestInstance = Sequelize.Instance<ServiceRequestAttributes> & ServiceRequestAttributes;
+type ServiceRequestModel = Sequelize.Model<ServiceRequestInstance, ServiceRequestAttributes>;
+
+async function createServiceTable(db: Database) {
+  db.services = sequelize.define<ServiceInstance, ServiceAttributes>("service",
     {
       id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
       url: {type: Sequelize.STRING, allowNull: false},
@@ -39,14 +48,45 @@ function createServiceTable(db: Database) {
       typeName: {type: Sequelize.STRING, allowNull: false},
       lastFetch: {type: Sequelize.DATE, allowNull: true},
     });
-  db.Services.sync();
+  await db.services.sync();
+}
+
+async function createServiceRequestTable(db: Database) {
+  db.serviceRequests = sequelize.define<ServiceRequestInstance, ServiceRequestAttributes>("serviceRequest",
+    {
+      id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
+      httpStatusCode: {type: Sequelize.INTEGER, allowNull: false},
+    });
+  db.serviceRequests.belongsTo(db.services);
+  await db.serviceRequests.sync();
 }
 
 interface Database {
-  Services?: ServiceModel;
+  services?: ServiceModel;
+  serviceRequests?: ServiceRequestModel;
+  creationPromise?: Promise<void>;
 }
 
-const db: Database = {};
-createServiceTable(db);
+async function createTables(db: Database) {
+  await createServiceTable(db);
+  await createServiceRequestTable(db);
+}
+
+const db: Database = {
+};
+
+db.creationPromise = new Promise((resolve, reject) => {
+  createTables(db).then(function() {
+    console.info("Database created.");
+    resolve();
+  }, function() {
+    console.error("Failed to create database.");
+    reject();
+  }).catch(function() {
+    console.error("Failed to create database.");
+    reject();
+  });
+});
+
 
 export = db;
