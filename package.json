@@ -29,7 +29,7 @@
     "build": "npm run delete-dist && npm run build-server && npm run build-client && npm run copy-assets",
     "start-server": "ts-node-dev --respawn --transpileOnly src/server/server.ts",
     "start-daemon": "ts-node $NODE_DEBUG_OPTION --respawn --transpileOnly src/daemon/daemon.ts",
-    "start": "concurrently -k -p \"[{name}]\" -n \"TypeScript (Client),Node\" -c \"yellow.bold,cyan.bold\" \"npm run watch-client-ts\" \"npm run start-server\"",
+    "start": "concurrently -k -p \"[{name}]\" -n \"TypeScript (Client),Node\" -c \"yellow.bold,cyan.bold\" \"npm run watch-client\" \"npm run start-server\"",
     "test": "jest --coverage --verbose --runInBand",
     "lint": "tslint -c tslint.json -p tsconfig.json"
   },
