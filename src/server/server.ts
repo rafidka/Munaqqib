@@ -41,8 +41,8 @@ export interface PugContext extends Context {
  * middleware to.
  */
 export function addPugSupport(app: Application) {
-  app.use(async (context: PugContext, next: () => Promise<any>) => {
-    addPugSupportToContext(context);
+  app.use(async (context: Context, next: () => Promise<any>) => {
+    addPugSupportToContext(<PugContext>context);
     await next();
   });
 }

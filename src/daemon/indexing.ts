@@ -85,8 +85,8 @@ function fieldDefToElasticSearchField(fieldDef: FieldDefinition) {
     type: fieldDef.type,
   };
   if (fieldDef.analyzer) {
-    def.analyzer = this.analyzer;
-    def.search_analyzer = this.analyzer;
+    def.analyzer = fieldDef.analyzer;
+    def.search_analyzer = fieldDef.analyzer;
   }
   return def;
 }
