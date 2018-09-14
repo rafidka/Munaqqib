@@ -4,11 +4,11 @@ import Application = require("koa");
 import route from "koa-route";
 import mount = require("koa-mount");
 import serve from "koa-static";
-
+import BodyParser from "koa-bodyparser";
 
 import dotenv from "dotenv";
 import * as homeCtrl from "./controllers/home";
-import * as userApiCtrl from "./apicontrollers/user";
+import * as servicesCtrl from "./apicontrollers/services";
 import { LocalsObject, Options, default as pug } from "pug";
 import * as path from "path";
 import sourceMapSupport from "source-map-support";
@@ -59,12 +59,20 @@ export function addPugSupportToContext(context: PugContext) {
 }
 
 /**
+ * Add's koa-bodyparser to the app so requests' bodies are parsed automatically.
+ */
+function addBodyParser() {
+  app.use(BodyParser());
+}
+
+/**
  * Registers the controllers.
  * @param {Application} app The {@link Application} instance to register the
  * controllers on.
  */
 function registerControllers(app: Application) {
-  app.use(route.get("/apis/user", userApiCtrl.index));
+  app.use(route.post("/apis/services", servicesCtrl.post));
+  app.use(route.get("/apis/services", servicesCtrl.get));
   app.use(route.get("/", homeCtrl.index));
 }
 
@@ -73,6 +81,7 @@ function registerStatic(app: Application) {
 }
 
 const app = new Koa();
+addBodyParser();
 addPugSupport(app);
 registerStatic(app);
 registerControllers(app);
