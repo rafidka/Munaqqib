@@ -12,6 +12,7 @@ import * as servicesCtrl from "./apicontrollers/services";
 import { LocalsObject, Options, default as pug } from "pug";
 import * as path from "path";
 import sourceMapSupport from "source-map-support";
+import { Http400Error } from "./exceptions";
 
 // Install source map support so errors happening while executing bundle.js
 // can be mapped to actual source code
@@ -61,8 +62,25 @@ export function addPugSupportToContext(context: PugContext) {
 /**
  * Add's koa-bodyparser to the app so requests' bodies are parsed automatically.
  */
-function addBodyParser() {
+function addBodyParser(app: Application) {
   app.use(BodyParser());
+}
+
+function addErrorHandler(app: Application) {
+  app.use(async (context: Context, next: () => Promise<any>) => {
+    addPugSupportToContext(<PugContext>context);
+    try {
+      await next();
+    } catch (err) {
+      if (err instanceof Http400Error) {
+        const casted = <Http400Error>err;
+        context.body = casted.responseBody;
+        context.response.status = 400;
+        return;
+      }
+      throw err;
+    }
+  });
 }
 
 /**
@@ -81,7 +99,8 @@ function registerStatic(app: Application) {
 }
 
 const app = new Koa();
-addBodyParser();
+addErrorHandler(app);
+addBodyParser(app);
 addPugSupport(app);
 registerStatic(app);
 registerControllers(app);

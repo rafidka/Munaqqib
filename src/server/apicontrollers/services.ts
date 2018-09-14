@@ -1,5 +1,6 @@
 import { Context } from "koa";
 import db from "../../daemon/database";
+import { Http400Error } from "../exceptions";
 
 export let get = async (context: Context) => {
   // I don't expect users to have a huge number of services, so it should
@@ -16,24 +17,24 @@ interface PostServiceBody {
 export let post = async (context: Context) => {
   const body = <PostServiceBody>context.request.body;
   if (!body) {
-    context.response.status = 400;
-    context.body = "Invalid request";
-    return;
+    throw new Http400Error({
+      errorMessage: "Invalid request"
+    });
   }
   if (!body.url) {
-    context.response.status = 400;
-    context.body = "Field 'url' is not specified";
-    return;
+    throw new Http400Error({
+      errorMessage: "Field 'url' is not specified"
+    });
   }
   if (!body.indexName) {
-    context.response.status = 400;
-    context.body = "Field 'indexName' is not specified";
-    return;
+    throw new Http400Error({
+      errorMessage: "Field 'indexName' is not specified"
+    });
   }
   if (!body.typeName) {
-    context.response.status = 400;
-    context.body = "Field 'typeName' is not specified";
-    return;
+    throw new Http400Error({
+      errorMessage: "Field 'typeName' is not specified"
+    });
   }
 
   // Create the new service and return it to the caller.
