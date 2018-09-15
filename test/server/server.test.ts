@@ -1,4 +1,4 @@
-import { createMockContext } from "./utilities";
+import { createMockContext } from "../utilities";
 import { addPugSupportToContext, default as server } from "../../src/server/server";
 
 describe("server.test.ts", () => {

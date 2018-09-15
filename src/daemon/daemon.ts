@@ -1,3 +1,6 @@
+import { setup } from "../setup";
+setup();
+
 import { checkStatus } from "./indexing";
 
 checkStatus().then(value => {

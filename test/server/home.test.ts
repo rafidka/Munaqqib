@@ -1,7 +1,7 @@
 import request from "supertest";
 import server from "../../src/server/server";
 import * as homeCtrl from "../../src/server/controllers/home";
-import { createMockContext } from "./utilities";
+import { createMockContext } from "../utilities";
 
 describe("controllers/home.ts", () => {
   it("index() should set body", async (done) => {

@@ -1,6 +1,8 @@
 import Sequelize from "sequelize";
 import { Error } from "tslint/lib/error";
 
+console.log("Setting up Sequelize with database: " + process.env.DATABASE);
+
 const sequelize = new Sequelize("database", "username", "password", {
   dialect: "sqlite",
 
@@ -12,7 +14,7 @@ const sequelize = new Sequelize("database", "username", "password", {
   },
 
   // SQLite only
-  storage: "database.sqlite",
+  storage: process.env.DATABASE,
 
   // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators
   operatorsAliases: false

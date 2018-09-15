@@ -3,7 +3,7 @@ export class Http400Error {
 
   }
 
-  public get responseBody(): any {
+  get responseBody(): any {
     return this._responseBody;
   }
 }

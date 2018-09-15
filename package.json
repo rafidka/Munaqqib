@@ -23,12 +23,12 @@
   "scripts": {
     "copy-assets": "ts-node copy-assets.ts",
     "delete-dist": "ts-node delete-dist.ts",
-    "watch-client": "webpack --config webpack.client.ts --watch",
-    "build-client": "webpack --config webpack.client.ts",
-    "build-server": "webpack --config webpack.server.ts",
+    "watch-client": "webpack --env.NODE_ENV=development --config webpack.client.ts --watch",
+    "build-client": "webpack --env.NODE_ENV=production --config webpack.client.ts",
+    "build-server": "webpack --env.NODE_ENV=production ---config webpack.server.ts",
     "build": "npm run delete-dist && npm run build-server && npm run build-client && npm run copy-assets",
-    "start-server": "ts-node-dev --respawn --transpileOnly src/server/server.ts",
-    "start-daemon": "ts-node $NODE_DEBUG_OPTION --respawn --transpileOnly src/daemon/daemon.ts",
+    "start-server": "NODE_ENV=development ts-node-dev --respawn --transpileOnly src/server/server.ts",
+    "start-daemon": "NODE_ENV=development ts-node $NODE_DEBUG_OPTION --respawn --transpileOnly src/daemon/daemon.ts",
     "start": "concurrently -k -p \"[{name}]\" -n \"TypeScript (Client),Node\" -c \"yellow.bold,cyan.bold\" \"npm run watch-client\" \"npm run start-server\"",
     "test": "jest --coverage --verbose --runInBand",
     "lint": "tslint -c tslint.json -p tsconfig.json"

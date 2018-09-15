@@ -8,6 +8,9 @@ module.exports = {
     'ts',
     'js'
   ],
+  setupFiles: [
+    "./test/setup.ts"
+  ],
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest'
   },

@@ -33,4 +33,7 @@ testem.log
 Thumbs.db
 
 # .env file
-/.env
+.env.*
+
+# SQLite databases
+*.sqlite

@@ -1,4 +1,4 @@
-import { addPugSupportToContext, PugContext } from "../../src/server/server";
+import { addPugSupportToContext, PugContext } from "../src/server/server";
 
 /**
  * Creates a mock empty context. This can be useful when we don't want to test
@@ -10,4 +10,3 @@ export function createMockContext(): PugContext {
   addPugSupportToContext(ctx);
   return ctx;
 }
-

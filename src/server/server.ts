@@ -1,3 +1,6 @@
+import { setup } from "../setup";
+setup();
+
 // Koa imports
 import Koa, { Context } from "koa";
 import Application = require("koa");
@@ -6,20 +9,12 @@ import mount = require("koa-mount");
 import serve from "koa-static";
 import BodyParser from "koa-bodyparser";
 
-import dotenv from "dotenv";
+// Munaqqibi imports
 import * as homeCtrl from "./controllers/home";
 import * as servicesCtrl from "./apicontrollers/services";
 import { LocalsObject, Options, default as pug } from "pug";
 import * as path from "path";
-import sourceMapSupport from "source-map-support";
-import { Http400Error } from "./exceptions";
-
-// Install source map support so errors happening while executing bundle.js
-// can be mapped to actual source code
-sourceMapSupport.install();
-
-// Load environment variables from .env file, where API keys and passwords are configured
-dotenv.config({path: ".env"});
+import { Http400Error } from "../exceptions";
 
 // Full URL of the 'views' directory.
 const VIEWS_PATH = path.join(__dirname, "views");
