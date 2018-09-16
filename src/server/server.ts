@@ -7,12 +7,12 @@ import Application = require("koa");
 import route from "koa-route";
 import mount = require("koa-mount");
 import serve from "koa-static";
+const render = require("koa-ejs");
 import BodyParser from "koa-bodyparser";
 
 // Munaqqibi imports
 import * as homeCtrl from "./controllers/home";
 import * as servicesCtrl from "./apicontrollers/services";
-import { LocalsObject, Options, default as pug } from "pug";
 import * as path from "path";
 import { Http400BadRequest, Http404NotFound } from "../exceptions";
 
@@ -25,45 +25,51 @@ console.log(PUBLIC_PATH);
 const PORT = process.env.PORT || 3000;
 
 /**
- * Extends the {@link Context} class to add a function for rendering PUG views.
+ * Extends the {@link Context} class to add a definition for the render()
+ * function from koa-ejs plugin.
  */
-export interface PugContext extends Context {
-  renderPugView(viewName: string, options: Options & LocalsObject): void;
+export interface MunaqqibContext extends Context {
+  render(viewName: string, options?: any): Promise<string | void>;
 }
 
 /**
- * Adds a middleware that injects a function for rendering PUG views.
- * @param {Application} app The {@link Application} instance to add the
- * middleware to.
+ * Adds support for rendering .ejs views. This adds a function render() to
+ * the application context which can be used to render .ejs views.
+ *
+ * @param {Application} app The {@link Application} instance to add the error
+ * handling layer to.
  */
-export function addPugSupport(app: Application) {
-  app.use(async (context: Context, next: () => Promise<any>) => {
-    addPugSupportToContext(<PugContext>context);
-    await next();
+function addEjsSupport(app: Application) {
+  const debug = process.env.NODE_ENV === "production";
+  render(app, {
+    root: VIEWS_PATH,
+    layout: false,
+    viewExt: "ejs",
+    cache: false,
+    writeResp: true, // Whether render() automatically writes the response
+    debug
   });
 }
 
 /**
- * Adds a function for rendering PUG views to the given {@link PugContext}.
- * @param {PugContext} context The context to add the function to.
- */
-export function addPugSupportToContext(context: PugContext) {
-  context.renderPugView = (viewName: string, options: Options & LocalsObject) => {
-    const viewPath = path.join(VIEWS_PATH, viewName + ".pug");
-    context.body = pug.renderFile(viewPath, options);
-  };
-}
-
-/**
- * Add's koa-bodyparser to the app so requests' bodies are parsed automatically.
+ * Adds koa-bodyparser to the app so requests' bodies are parsed automatically.
  */
 function addBodyParser(app: Application) {
   app.use(BodyParser());
 }
 
+/**
+ * Adds a layer for handling HTTP exceptions that need to be translated into
+ * specific HTTP error responses. For example, if an API throws a
+ * {@link Http400BadRequest}, an HTTP 400 error code should be returned,
+ * instead of letting Node handles the exception and translates it as
+ * HTTP 500 Internal Error.
+ *
+ * @param {Application} app The {@link Application} instance to add the error
+ * handling layer to.
+ */
 function addErrorHandler(app: Application) {
   app.use(async (context: Context, next: () => Promise<any>) => {
-    addPugSupportToContext(<PugContext>context);
     try {
       await next();
     } catch (err) {
@@ -103,7 +109,7 @@ function registerStatic(app: Application) {
 const app = new Koa();
 addErrorHandler(app);
 addBodyParser(app);
-addPugSupport(app);
+addEjsSupport(app);
 registerStatic(app);
 registerControllers(app);
 
