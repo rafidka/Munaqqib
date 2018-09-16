@@ -1,5 +1,4 @@
 import _ from "lodash";
-import fetch from "node-fetch";
 import es from "elasticsearch";
 import dotenv from "dotenv";
 
@@ -145,24 +144,3 @@ async function search(indexName: string, typeName: string,
   return response.hits.hits;
 }
 
-async function fetchHadiths(url: string, count: number, startDate: Date) {
-  const response = await fetch(url);
-  console.dir(`fetchHadiths() response is ${response}`);
-}
-
-async function doWork() {
-  const INDEX_NAME = "default";
-  const TYPE_NAME = "hadiths";
-  /*await deleteIndex(INDEX_NAME);
-  await createIndex(INDEX_NAME);
-  await setType(INDEX_NAME, TYPE_NAME);
-  await indexDocument(INDEX_NAME, TYPE_NAME, {
-    "id": 1428,
-    "text": "أَلَآ إِنَّ أَوْلِيَآءَ ٱللَّهِ لَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ",
-    "added_on": "2017-02-20T23:05:07.730403Z",
-    "updated_on": "2017-08-21T01:30:06.936861Z",
-  });*/
-  await search(INDEX_NAME, TYPE_NAME, "هم");
-}
-
-doWork();

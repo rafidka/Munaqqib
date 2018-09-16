@@ -38,6 +38,9 @@ function installSourceMapSupport() {
   sourceMapSupport.install();
 }
 
+/**
+ * Executes common functionality required by both the server and daemon.
+ */
 export function setup() {
   loadDotEnvFile();
   installSourceMapSupport();
