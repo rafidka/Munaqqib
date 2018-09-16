@@ -31,7 +31,9 @@ export default (env: any): webpack.Configuration => {
     },
     output: {
       filename: "client.js",
-      path: path.resolve(__dirname, "./src/server/public/js")
+      path: env.NODE_ENV == "production"
+        ? path.resolve(__dirname, "./dist/public/js")
+        : path.resolve(__dirname, "./src/server/public/js")
     },
     resolve: {
       extensions: [".ts", ".js"]
