@@ -14,7 +14,7 @@ import * as homeCtrl from "./controllers/home";
 import * as servicesCtrl from "./apicontrollers/services";
 import { LocalsObject, Options, default as pug } from "pug";
 import * as path from "path";
-import { Http400Error } from "../exceptions";
+import { Http400BadRequest, Http404NotFound } from "../exceptions";
 
 // Full URL of the 'views' directory.
 const VIEWS_PATH = path.join(__dirname, "views");
@@ -67,10 +67,15 @@ function addErrorHandler(app: Application) {
     try {
       await next();
     } catch (err) {
-      if (err instanceof Http400Error) {
-        const casted = <Http400Error>err;
+      if (err instanceof Http400BadRequest) {
+        const casted = <Http400BadRequest>err;
         context.body = casted.responseBody;
         context.response.status = 400;
+        return;
+      } else if (err instanceof Http404NotFound) {
+        const casted = <Http404NotFound>err;
+        context.body = casted.responseBody;
+        context.response.status = 404;
         return;
       }
       throw err;
@@ -85,7 +90,9 @@ function addErrorHandler(app: Application) {
  */
 function registerControllers(app: Application) {
   app.use(route.post("/apis/services", servicesCtrl.post));
-  app.use(route.get("/apis/services", servicesCtrl.get));
+  app.use(route.put("/apis/services/:id", servicesCtrl.put));
+  app.use(route.get("/apis/services", servicesCtrl.getAll));
+  app.use(route.get("/apis/services/:id", servicesCtrl.getOne));
   app.use(route.get("/", homeCtrl.index));
 }
 
