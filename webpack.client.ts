@@ -9,36 +9,30 @@ export default (env: any): webpack.Configuration => {
 
   return {
     devtool: "source-map",
-    entry: "./src/server/public/js/index.ts",
+    entry: "./src/server/public/js/index.tsx",
     mode: env.NODE_ENV == "production" ? "production" : "development",
     module: {
       rules: [
         {
-          test: /\.ts$/,
+          test: /\.tsx?$/,
           use: "ts-loader",
-          exclude: /node_modules/
+          exclude: [/node_modules/]
+        },
+        {
+          test: /\.css$/,
+          use: ["style-loader", "css-loader"]
         }
       ]
     },
-    node: {
-      Buffer: false,
-      __dirname: false,
-      __filename: false,
-      console: false,
-      global: false,
-      process: false,
-      setImmediate: false
-    },
     output: {
       filename: "client.js",
-      path: env.NODE_ENV == "production"
-        ? path.resolve(__dirname, "./dist/public/js")
-        : path.resolve(__dirname, "./src/server/public/js")
+      path:
+        env.NODE_ENV == "production"
+          ? path.resolve(__dirname, "./dist/public/js")
+          : path.resolve(__dirname, "./src/server/public/js")
     },
     resolve: {
-      extensions: [".ts", ".js"]
-    },
-    target: "node"
+      extensions: [".ts", ".tsx", ".js", ".jsx"]
+    }
   };
 };
-

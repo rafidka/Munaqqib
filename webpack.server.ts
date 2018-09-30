@@ -49,4 +49,4 @@ export default (env: any): webpack.Configuration => {
     },
     target: "node"
   };
-}
+};
