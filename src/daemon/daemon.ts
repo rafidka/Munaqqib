@@ -1,8 +1,9 @@
-import { setup } from "../setup";
+import { setup, startAsync } from "../setup";
 setup();
 
 import { checkStatus } from "./indexing";
 
-checkStatus().then(value => {
+startAsync(async () => {
+  const value = await checkStatus();
   console.log(`checkStatus() returned: ${value}.`);
 });

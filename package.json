@@ -47,7 +47,8 @@
     "node-fetch": "^2.2.0",
     "request": "^2.88.0",
     "sequelize": "^4.38.0",
-    "sqlite3": "^4.0.2"
+    "sqlite3": "^4.0.2",
+    "winston": "^3.1.0"
   },
   "devDependencies": {
     "@types/angular": "^1.6.50",

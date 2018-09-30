@@ -37,3 +37,9 @@ Thumbs.db
 
 # SQLite databases
 *.sqlite
+
+# LOG files
+/error.log
+/exceptions.log
+/general.log
+/sql.log

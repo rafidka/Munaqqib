@@ -1,7 +1,8 @@
 import Sequelize from "sequelize";
 import { Error } from "tslint/lib/error";
+import { ERROR_LOGGER, GENERAL_LOGGER, SQL_LOGGER } from "./logging";
 
-console.log("Setting up Sequelize with database: " + process.env.DATABASE);
+GENERAL_LOGGER.log("info", "Setting up Sequelize with database: " + process.env.DATABASE);
 
 const sequelize = new Sequelize("database", "username", "password", {
   dialect: "sqlite",
@@ -17,7 +18,11 @@ const sequelize = new Sequelize("database", "username", "password", {
   storage: process.env.DATABASE,
 
   // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators
-  operatorsAliases: false
+  operatorsAliases: false,
+
+  logging: (message: string) => {
+    SQL_LOGGER.log("info", message);
+  }
 });
 
 class ServiceAttributes {
@@ -48,13 +53,13 @@ class Database {
   public constructor() {
     this.creationPromise = new Promise((resolve, reject) => {
       this.createModels().then(function () {
-        console.info("Database created.");
+        GENERAL_LOGGER.log("info", "Database created.");
         resolve();
       }, function () {
-        console.error("Failed to create database.");
+        ERROR_LOGGER.log("error", "Failed to create database.");
         reject();
       }).catch(function () {
-        console.error("Failed to create database.");
+        ERROR_LOGGER.log("error", "Failed to create database.");
         reject();
       });
     });
