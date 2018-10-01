@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 
 export function Menu() {
   return (
@@ -7,8 +9,8 @@ export function Menu() {
         <ul className="nav flex-column">
           <li className="nav-item">
             <a className="nav-link active" href="#">
-              <span data-feather="home" />
-              Services <span className="sr-only">(current)</span>
+              <FontAwesomeIcon icon={faCoffee} className="mr-2" />
+              Services
             </a>
           </li>
         </ul>
