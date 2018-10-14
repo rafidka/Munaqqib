@@ -99,7 +99,7 @@ function registerControllers(app: Application) {
   app.use(route.put("/apis/services/:id", servicesCtrl.put));
   app.use(route.get("/apis/services", servicesCtrl.getAll));
   app.use(route.get("/apis/services/:id", servicesCtrl.getOne));
-  app.use(route.get("/", homeCtrl.index));
+  app.use(route.get("/(.*)", homeCtrl.index));
 }
 
 function registerStatic(app: Application) {
@@ -123,4 +123,3 @@ const server = app.listen(PORT, () => {
 });
 
 export default server;
-

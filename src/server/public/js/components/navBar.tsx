@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export function NavBar() {
   return (
     <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
+      <Link className="navbar-brand col-sm-3 col-md-2 mr-0" to="/">
         Munaqqib Admin
-      </a>
+      </Link>
       <input
         className="form-control form-control-dark w-100"
         type="text"
