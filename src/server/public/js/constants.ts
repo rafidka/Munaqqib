@@ -4,19 +4,18 @@ import {
   faHome,
   IconDefinition
 } from "@fortawesome/free-solid-svg-icons";
-import { Home } from "./components/home";
-import { CreateService } from "./components/createService";
-import { Services } from "./components/services";
+import { Home } from "./pages/home";
+import { CreateService } from "./pages/createService";
+import { Services } from "./pages/services";
 
-// TODO: Move somewhere else.
-export interface Tab {
+export interface Page {
   name: string;
   path: string;
   icon: IconDefinition;
   component: any;
 }
 
-export const TABS: { [id: string]: Tab } = {
+export const PAGES: { [id: string]: Page } = {
   HOME: {
     name: "Home",
     path: "/",

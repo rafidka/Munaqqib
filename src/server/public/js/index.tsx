@@ -1,12 +1,12 @@
-// Bootstrap styles
+// Styles
 import "bootstrap/dist/css/bootstrap.css";
+import "./index.css";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { App } from "./components/app";
+import { App } from "./app";
 import { Provider } from "react-redux";
-import store from "./components/store";
-import "./index.css";
+import store from "./store";
 
 ReactDOM.render(
   <Provider store={store}>

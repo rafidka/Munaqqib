@@ -1,14 +1,14 @@
 import React, { Fragment } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { TABS, Tab } from "../../constants";
+import { PAGES, Page } from "../../constants";
 
 export class AppRouter extends React.Component {
   render() {
     return (
       <Fragment>
         <Switch>
-          {Object.keys(TABS).map((tabKey: string) => {
-            const tab: Tab = TABS[tabKey];
+          {Object.keys(PAGES).map((tabKey: string) => {
+            const tab: Page = PAGES[tabKey];
             return (
               <Route
                 key={tabKey}
@@ -18,6 +18,7 @@ export class AppRouter extends React.Component {
               />
             );
           })}
+          <Route render={() => <div>Invalid page URL.</div>} />
           <Redirect to="/" />
         </Switch>
       </Fragment>

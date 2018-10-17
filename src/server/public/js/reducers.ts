@@ -1,4 +1,4 @@
 import { combineReducers } from "redux";
-import servicesReducer from "./services/reducer";
+import servicesReducer from "./pages/services/reducer";
 
 export default combineReducers({ servicesReducer });

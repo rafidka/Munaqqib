@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { TABS, Tab } from "../constants";
+import { PAGES, Page } from "./constants";
 
 class Menu extends React.Component {
   render() {
@@ -10,15 +10,15 @@ class Menu extends React.Component {
       <nav className="col-md-2 d-none d-md-block bg-light sidebar">
         <div className="sidebar-sticky">
           <ul className="nav flex-column">
-            {Object.keys(TABS).map((tabKey: string) => {
-              const tab: Tab = TABS[tabKey];
+            {Object.keys(PAGES).map((tabKey: string) => {
+              const tab: Page = PAGES[tabKey];
 
               return (
                 <li className="nav-item" key={tab.name}>
-                  <Link to={tab.path}>
+                  <NavLink to={tab.path} activeStyle={{ fontWeight: "bold" }}>
                     <FontAwesomeIcon icon={tab.icon} className="mr-2" />
                     {tab.name}
-                  </Link>
+                  </NavLink>
                 </li>
               );
             })}
