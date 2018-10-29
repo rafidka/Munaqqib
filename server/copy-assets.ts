@@ -9,4 +9,4 @@ if (!shelljs.ls().includes("dist")) {
 
 // Copy views
 shelljs.rm("-rf", "dist/views");
-shelljs.cp("-R", "src/server/views", "dist/views");
+shelljs.cp("-R", "src/views", "dist/views");

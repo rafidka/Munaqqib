@@ -1,0 +1,20 @@
+# Compiled output
+/dist
+
+# .env files
+/.env
+
+# LOG files
+/error.log
+/exceptions.log
+/general.log
+/sql.log
+
+# misc
+/coverage
+npm-debug.log
+yarn-error.log
+testem.log
+
+# sqlite files
+*.sqlite

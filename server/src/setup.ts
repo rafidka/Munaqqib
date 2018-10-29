@@ -14,17 +14,19 @@ console.log("NODE_ENV=" + process.env.NODE_ENV);
  * running as, e.g. ".env.development", etc.
  */
 function loadDotEnvFile() {
+  const env = process.env.NODE_ENV;
+  console.info(`Environment is: ${env}.`);
   switch (process.env.NODE_ENV) {
     case "production":
-      dotenv.config({path: ".env.production"});
+      dotenv.config({ path: "./.env/.env.production" });
       break;
 
     case "development":
-      dotenv.config({path: ".env.development"});
+      dotenv.config({ path: "./.env/.env.development" });
       break;
 
     case "test":
-      dotenv.config({path: ".env.test"});
+      dotenv.config({ path: "./.env/.env.test" });
       break;
 
     default:

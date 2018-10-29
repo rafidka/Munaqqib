@@ -1,10 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# Compiled output
-/dist
-
 # Node modules
-/node_modules
+node_modules
 
 # IDEs and editors
 /.idea
@@ -22,24 +19,6 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# misc
-/coverage
-npm-debug.log
-yarn-error.log
-testem.log
-
 # System Files
 .DS_Store
 Thumbs.db
-
-# .env file
-.env.*
-
-# SQLite databases
-*.sqlite
-
-# LOG files
-/error.log
-/exceptions.log
-/general.log
-/sql.log

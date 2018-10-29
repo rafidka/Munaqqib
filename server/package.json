@@ -1,0 +1,78 @@
+{
+  "name": "munaqqib",
+  "version": "0.1.0",
+  "description": "An ElasticSearch-based crawler for crawling RESTful services and make their results searchable",
+  "main": "./dist/bundle.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafidka/Munaqqib.git"
+  },
+  "keywords": [
+    "ElasticSearch",
+    "RESTful",
+    "REST",
+    "Search",
+    "Munaqqib"
+  ],
+  "author": "Rafid K. Al-Humaimidi",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/rafidka/Munaqqib/issues"
+  },
+  "homepage": "https://github.com/rafidka/Munaqqib#readme",
+  "scripts": {
+    "copy-assets": "ts-node copy-assets.ts",
+    "delete-dist": "ts-node delete-dist.ts",
+    "webpack": "webpack --env.NODE_ENV=production ---config webpack.ts",
+    "build": "npm run delete-dist && npm run webpack && npm run copy-assets",
+    "start": "NODE_ENV=development ts-node-dev --respawn --transpileOnly src/server.ts",
+    "test": "jest --coverage --verbose --runInBand",
+    "lint": "tslint -c tslint.json -p tsconfig.json"
+  },
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "i": "^0.3.6",
+    "koa": "^2.5.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-ejs": "^4.1.2",
+    "koa-route": "^3.2.0",
+    "lodash": "^4.17.10",
+    "node-fetch": "^2.2.0",
+    "npm": "^6.4.1",
+    "request": "^2.88.0",
+    "sequelize": "^4.38.0",
+    "sqlite3": "^4.0.2",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^4.0.3",
+    "@types/jest": "^23.3.1",
+    "@types/koa": "^2.0.46",
+    "@types/koa-bodyparser": "^5.0.1",
+    "@types/koa-route": "^3.2.4",
+    "@types/lodash": "^4.14.116",
+    "@types/node": "^10.9.2",
+    "@types/node-fetch": "^2.1.2",
+    "@types/request": "^2.47.1",
+    "@types/sequelize": "^4.27.25",
+    "@types/shelljs": "^0.8.0",
+    "@types/source-map-support": "^0.4.1",
+    "@types/supertest": "^2.0.5",
+    "@types/webpack": "^4.4.11",
+    "@types/webpack-node-externals": "^1.6.3",
+    "jest": "^23.5.0",
+    "nodemon": "^1.18.3",
+    "shelljs": "^0.8.2",
+    "source-map-support": "^0.5.9",
+    "supertest": "^3.1.0",
+    "ts-jest": "^23.1.4",
+    "ts-loader": "^4.5.0",
+    "ts-node": "^7.0.1",
+    "ts-node-dev": "^1.0.0-pre.26",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
