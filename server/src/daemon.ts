@@ -1,4 +1,4 @@
-import { setup, startAsync } from "../setup";
+import { setup, startAsync } from "./setup";
 setup();
 
 import { checkStatus } from "./indexing";

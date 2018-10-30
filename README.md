@@ -1,2 +1,4 @@
 # Munaqqib
-An ElasticSearch-based crawler for crawling RESTful services and make their results searchable
+
+An ElasticSearch-based application for indexing RESTful services and making
+their results searchable.
