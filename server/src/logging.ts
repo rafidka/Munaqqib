@@ -1,4 +1,9 @@
 import winston from "winston";
+import Transport from "winston-transport";
+
+// Full URL of the 'views' directory.
+const LOGS_DIR = process.env.LOGS_DIR;
+const IS_TEST_MODE = process.env.NODE_ENV === "test";
 
 function getFormat(label: string) {
   return winston.format.combine(
@@ -10,40 +15,43 @@ function getFormat(label: string) {
   );
 }
 
+function getTransports(filename: string): Transport[] {
+  if (IS_TEST_MODE) {
+    // Don't log to files in test mode.
+    return [new winston.transports.Console()];
+  } else {
+    return [
+      new winston.transports.Console(),
+      new winston.transports.File({
+        filename: filename,
+        dirname: LOGS_DIR
+      })
+    ];
+  }
+}
+
 export const GENERAL_LOGGER = winston.createLogger({
   level: "info",
   format: getFormat("General"),
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: "general.log" })
-  ]
+  transports: getTransports("general.log")
 });
 
 export const SQL_LOGGER = winston.createLogger({
   level: "info",
   format: getFormat("Sequelize"),
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: "sql.log" })
-  ]
+  transports: getTransports("sql.log")
 });
 
 export const ERROR_LOGGER = winston.createLogger({
   level: "error",
   format: getFormat("Error"),
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: "error.log" })
-  ]
+  transports: getTransports("error.log")
 });
 
 export const EXCEPTION_LOGGER = winston.createLogger({
   level: "error",
   format: getFormat("Exception"),
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: "exceptions.log" })
-  ]
+  transports: getTransports("exceptions.log")
 });
 
 export function endLoggers() {

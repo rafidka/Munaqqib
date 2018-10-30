@@ -1,8 +1,11 @@
 import Sequelize from "sequelize";
 import { Error } from "tslint/lib/error";
-import { ERROR_LOGGER, GENERAL_LOGGER, SQL_LOGGER } from "./logging";
+import { ERROR_LOGGER, GENERAL_LOGGER, SQL_LOGGER } from "../logging";
 
-GENERAL_LOGGER.log("info", "Setting up Sequelize with database: " + process.env.DATABASE);
+GENERAL_LOGGER.log(
+  "info",
+  "Setting up Sequelize with database: " + process.env.DATABASE
+);
 
 const sequelize = new Sequelize("database", "username", "password", {
   dialect: "sqlite",
@@ -33,7 +36,8 @@ class ServiceAttributes {
   lastFetch?: Date;
 }
 
-type ServiceInstance = Sequelize.Instance<ServiceAttributes> & ServiceAttributes;
+type ServiceInstance = Sequelize.Instance<ServiceAttributes> &
+  ServiceAttributes;
 type ServiceModel = Sequelize.Model<ServiceInstance, ServiceAttributes>;
 
 class ServiceRequestAttributes {
@@ -42,8 +46,12 @@ class ServiceRequestAttributes {
   httpStatusCode?: number;
 }
 
-type ServiceRequestInstance = Sequelize.Instance<ServiceRequestAttributes> & ServiceRequestAttributes;
-type ServiceRequestModel = Sequelize.Model<ServiceRequestInstance, ServiceRequestAttributes>;
+type ServiceRequestInstance = Sequelize.Instance<ServiceRequestAttributes> &
+  ServiceRequestAttributes;
+type ServiceRequestModel = Sequelize.Model<
+  ServiceRequestInstance,
+  ServiceRequestAttributes
+>;
 
 class Database {
   private _services?: ServiceModel;
@@ -52,16 +60,21 @@ class Database {
 
   public constructor() {
     this.creationPromise = new Promise((resolve, reject) => {
-      this.createModels().then(function () {
-        GENERAL_LOGGER.log("info", "Database created.");
-        resolve();
-      }, function () {
-        ERROR_LOGGER.log("error", "Failed to create database.");
-        reject();
-      }).catch(function () {
-        ERROR_LOGGER.log("error", "Failed to create database.");
-        reject();
-      });
+      this.createModels()
+        .then(
+          function() {
+            GENERAL_LOGGER.log("info", "Database created.");
+            resolve();
+          },
+          function() {
+            ERROR_LOGGER.log("error", "Failed to create database.");
+            reject();
+          }
+        )
+        .catch(function() {
+          ERROR_LOGGER.log("error", "Failed to create database.");
+          reject();
+        });
     });
   }
 
@@ -85,30 +98,35 @@ class Database {
   }
 
   private async createServiceModel() {
-    this._services = sequelize.define<ServiceInstance, ServiceAttributes>("service",
+    this._services = sequelize.define<ServiceInstance, ServiceAttributes>(
+      "service",
       {
-        id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
-        url: {type: Sequelize.STRING, allowNull: false},
-        indexName: {type: Sequelize.STRING, allowNull: false},
-        typeName: {type: Sequelize.STRING, allowNull: false},
-        lastFetch: {type: Sequelize.DATE, allowNull: true},
-      });
+        id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+        url: { type: Sequelize.STRING, allowNull: false },
+        indexName: { type: Sequelize.STRING, allowNull: false },
+        typeName: { type: Sequelize.STRING, allowNull: false },
+        lastFetch: { type: Sequelize.DATE, allowNull: true }
+      }
+    );
     await this._services.sync();
   }
 
   private async createServiceRequestModel() {
     if (!this._services) {
-      throw new Error("this._services is undefined. createServiceModel() should be called before calling this function.");
+      throw new Error(
+        "this._services is undefined. createServiceModel() should be called before calling this function."
+      );
     }
-    this._serviceRequests = sequelize.define<ServiceRequestInstance, ServiceRequestAttributes>("serviceRequest",
-      {
-        id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
-        httpStatusCode: {type: Sequelize.INTEGER, allowNull: false},
-      });
+    this._serviceRequests = sequelize.define<
+      ServiceRequestInstance,
+      ServiceRequestAttributes
+    >("serviceRequest", {
+      id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+      httpStatusCode: { type: Sequelize.INTEGER, allowNull: false }
+    });
     this._serviceRequests.belongsTo(this._services);
     await this._serviceRequests.sync();
   }
-
 }
 
 export = new Database();

@@ -18,15 +18,15 @@ function loadDotEnvFile() {
   console.info(`Environment is: ${env}.`);
   switch (process.env.NODE_ENV) {
     case "production":
-      dotenv.config({ path: "./.env/.env.production" });
+      dotenv.config({ path: "./.env/production.env" });
       break;
 
     case "development":
-      dotenv.config({ path: "./.env/.env.development" });
+      dotenv.config({ path: "./.env/development.env" });
       break;
 
     case "test":
-      dotenv.config({ path: "./.env/.env.test" });
+      dotenv.config({ path: "./.env/test.env" });
       break;
 
     default:
