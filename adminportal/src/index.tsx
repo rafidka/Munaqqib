@@ -1,11 +1,23 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
-import registerServiceWorker from './registerServiceWorker';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import { ILayoutState } from "./Containers/Layout/reducer";
+import "./index.css";
+import registerServiceWorker from "./registerServiceWorker";
+import store from "./store";
+
+export interface IMunaqqibState {
+  layout: ILayoutState;
+}
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('root') as HTMLElement
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
+  document.getElementById("root") as HTMLElement
 );
 registerServiceWorker();
