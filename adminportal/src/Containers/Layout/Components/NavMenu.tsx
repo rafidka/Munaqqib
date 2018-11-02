@@ -7,7 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { createStyles, Theme, withStyles } from "@material-ui/core";
 import * as React from "react";
 import { withRouter } from "react-router-dom";
-import { IPage, PAGES } from "./AppRouter";
+import { IPage, PAGES } from "../pages";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -30,8 +30,7 @@ class NavMenu extends React.Component<any> {
               <ListItem
                 button={true}
                 key={page.name}
-                // tslint:disable-next-line:jsx-no-lambda
-                onClick={() => this.click(page)}
+                onClick={this.onClick.bind(this, page)}
               >
                 <ListItemIcon>{page.icon}</ListItemIcon>
                 <ListItemText primary={page.name} />
@@ -43,9 +42,10 @@ class NavMenu extends React.Component<any> {
     );
   }
 
-  private click(page: IPage) {
+  private onClick(page: IPage) {
     this.props.history.push(page.path);
   }
 }
 
-export default withStyles(styles, { withTheme: true })(withRouter(NavMenu));
+const comp = withStyles(styles, { withTheme: true })(withRouter(NavMenu));
+export { comp as NavMenu };

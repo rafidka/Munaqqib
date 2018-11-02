@@ -1,32 +1,13 @@
-export interface ILayoutState {
-  isNavMenuVisible: boolean;
-}
+import { ILayoutAction, LAYOUT_ACTION_TYPE } from "./actions";
+import { ILayoutState } from "./state";
 
-const initialState: ILayoutState = {
+const INIT_STATE: ILayoutState = {
   isNavMenuVisible: false
 };
 
-export enum LAYOUT_ACTION {
-  HIDE_NAV_MENU = "HIDE_NAV_MENU",
-  SHOW_NAV_MENU = "SHOW_NAV_MENU",
-  TOGGLE_NAV_MENU = "TOGGLE_NAV_MENU"
-}
-
-export default function(state = initialState, action: { type: LAYOUT_ACTION }) {
+export default function(state = INIT_STATE, action: ILayoutAction) {
   switch (action.type) {
-    case LAYOUT_ACTION.HIDE_NAV_MENU:
-      return {
-        ...state,
-        isNavMenuVisible: false
-      };
-
-    case LAYOUT_ACTION.SHOW_NAV_MENU:
-      return {
-        ...state,
-        isNavMenuVisible: true
-      };
-
-    case LAYOUT_ACTION.TOGGLE_NAV_MENU:
+    case LAYOUT_ACTION_TYPE.TOGGLE_NAV_MENU:
       return {
         ...state,
         isNavMenuVisible: !state.isNavMenuVisible
